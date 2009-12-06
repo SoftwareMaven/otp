@@ -1,0 +1,253 @@
+<html>
+<meta http-equiv="content-type" Content="text/html; charset=utf-8">
+<title>Currently in the 'pu' branch</title>
+<style type="text/css" media="all">
+    body {
+      width: 600px;
+    }
+</style>
+<body>
+<h1>Currently in the 'pu' branch</h1>
+<p>The comment about each topic branch is taken from the latest
+<em>What's cooking in erlang/otp</em> email and may no longer apply if
+the topic branch has been updated.
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/932537b2bd231e9679b6f1a2b090dca0ea002cd7">kj/eunit-race-cond</a> (eunit):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/bd38a126546376246f9a93a2943e70a3925df48f">Don't let eunit_surefire report back to eunit when stopping</a></li>
+<li><a href="https://github.com/erlang/otp/commit/0e7c557a9909f531530ee4742eb04ce23f03e3d6">Wait until all eunit listeners terminate</a></li>
+</ul>
+<p></li>
+<li><a href="https://github.com/erlang/otp/commit/29a6e12b7a7bebd6458d411a19739d3e7e11796e">ta/inet_drv-cleanup</a> (erts):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/1a0389b3cc789bab6264777f27abc2674908543d">inet_drv: remove unused tcp request id</a></li>
+<li><a href="https://github.com/erlang/otp/commit/92b693e6e36bf518c2a19f7ab3b2e186a9e30b45">inet_drv: remove gratuitous assignment</a></li>
+</ul>
+<p></li>
+<li><a href="https://github.com/erlang/otp/commit/de92b71c0c0370037bf35c3231ef8dd9aea40336">ss/fix-cover-fd-leak</a> (tools):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/0568a0ea0f8bf115b639589f060f62d0435a956a">Fix file descriptor leak</a></li>
+</ul>
+<p></li>
+<li><a href="https://github.com/erlang/otp/commit/78874c7230f2144ad4cb8757190928cf1f36def6">ks/list_to_bitstring</a> (hipe):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/9a256f121015dbb333bbd3366a65c4d7e0c92cd9">Fix handling of <<_:N,_:_*M>> type expressions</a></li>
+<li><a href="https://github.com/erlang/otp/commit/1abe7a395c70c016f1a4ea3c6651ccce3f704d54">Fix the argument of erlang:list_to_bitstring/1</a></li>
+<li><a href="https://github.com/erlang/otp/commit/ba73458d6e6d8bcea364e610ca9262bea7e27b51">Move function to its proper place</a></li>
+<li><a href="https://github.com/erlang/otp/commit/b9903ed7c0c6946a84aca347005fa3e042769f9f">Remove unneeded function 'sequence/2'</a></li>
+</ul>
+<p></li>
+<li><a href="https://github.com/erlang/otp/commit/1bd0df1a1df56ab09190e237e55a5f2e3b37fa77">pr/mnesia_frag_hash</a> (mnesia):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/1d6762d162560197facb263e03e0cd4958b2418d">add mnesia_frag_hash test</a></li>
+<li><a href="https://github.com/erlang/otp/commit/67a20c0e2f91e143536202ae969d8211e3ac3da8">Reduce calls to phash in key_to_frag_number</a></li>
+</ul>
+<p></li>
+<li><a href="https://github.com/erlang/otp/commit/270005bcadbe09016a0fed891ec790d84368835c">ta/dragonfly-test_server-config</a> (test_server):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/0a97fead74e74cd7e0f2e218fc602d82a112e193">Add DragonflyBSD support to test_server</a></li>
+</ul>
+<p></li>
+<li><a href="https://github.com/erlang/otp/commit/dbeb0458bc8bd64bfaa34be989a47d8b7b53b9d1">sa/dialyzer-tests</a> (dialyzer):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/6f2b1276da15ca2a5eabe2b2464bc41df084f93e">Update dialyzer.spec</a></li>
+<li><a href="https://github.com/erlang/otp/commit/fee1a1e9a6089d3563ee770bbfbdb30632737ade">Add race/ets_insert_public</a></li>
+<li><a href="https://github.com/erlang/otp/commit/7cd0b26093e72503340f9312696df8ecfb9879d7">Add opaque/ewgi,ewgi2</a></li>
+<li><a href="https://github.com/erlang/otp/commit/9c7d84bc71f1e0a330848dc3e061fc95893cde9c">Add opaque/schuett_bug</a></li>
+<li><a href="https://github.com/erlang/otp/commit/aaf9ec2a23079dd55542c466f802dccec494d91e">Add small/param_types_crash</a></li>
+<li><a href="https://github.com/erlang/otp/commit/a1069096e87517521b32e6171447671e38d05666">Add small/file_open_encoding</a></li>
+<li><a href="https://github.com/erlang/otp/commit/4cd05bf91096cbdd004fe09f763487936ddff171">Add small/false_false</a></li>
+<li><a href="https://github.com/erlang/otp/commit/3f250779b7c0382fe95fc4c97ab4b095f15bd135">Add small/ets_update_counter</a></li>
+<li><a href="https://github.com/erlang/otp/commit/8b3b60927546fe573a1fb7eafea52dd3f87b6117">Add small/bin_compr</a></li>
+<li><a href="https://github.com/erlang/otp/commit/dc91d02a1e3ae2636d34b25518fe12cc4edbb1e9">Add small/tuple_set_crash</a></li>
+<li><a href="https://github.com/erlang/otp/commit/bb03af35184758728a39ac266a7b1abf82c16854">Add small/refine_failing</a></li>
+<li><a href="https://github.com/erlang/otp/commit/c3c4253cf95088a3b9786d5e9ca5e02fbe4dd29d">Add small/not_bogus_warning</a></li>
+.
+.
+.
+</ul>
+<p>...
+
+<p>
+</li>
+<li><a href="https://github.com/erlang/otp/commit/a501987202f0f762dc0f217066b835b3b3ea0ff3">tn/inet_drv-fix</a> (erts):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/e3605633cbbf1c1e8a9c0be4cff369ede0a0bc73">Use libdlpi to get physical address</a></li>
+</ul>
+<p></li>
+<li><a href="https://github.com/erlang/otp/commit/81dacc0debeb6741dd5cb3447786991c80846dbe">mh/inhibit-newline-inside-typespec</a> (tools):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/c0c600a58532b132b0b85d7a835ac485edb9a477">Inhibit electric newline after "->" when inside a type spec</a></li>
+</ul>
+<p></li>
+<li><a href="https://github.com/erlang/otp/commit/4d823146015c66c2170912253d3338875e3d8ca4">ta/unicode-non-chars</a> (stdlib):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/5043e8ffcf134575badf3cb65431bc025f3db3bf">unicode: document 16#FFFE and 16#FFFF (non chars)</a></li>
+</ul>
+<p></li>
+<li><a href="https://github.com/erlang/otp/commit/13076feb3fe2ed3c3192c2ac40fbceafdf67a5c5">ks/snmp-specs</a> (snmp):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/7354ffb0e5cde599fcad776febd33cdb234f30a7">Add specs for functions that do not return</a></li>
+</ul>
+<p></li>
+<li><a href="https://github.com/erlang/otp/commit/900da168ea9d7f976f11ab8f98f1fd3f89f29841">lt/et-fix</a> (et):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/9836fb280fbe937ecb2d34abe82be7ac23197ceb">Force contents window size to display correctly on Windows.</a></li>
+</ul>
+<p>Action expected from: Topic author
+
+<p>
+</li>
+<li><a href="https://github.com/erlang/otp/commit/a000ef46a07b54e94a058177e05ab4293b1b8605">ta/sendfile</a> (erts, kernel):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/6c70e8160edb82fe43078f6e8a99d0166710f2f5">Implement file:sendfile</a></li>
+</ul>
+<p></li>
+<li><a href="https://github.com/erlang/otp/commit/4096a09960dd281f4d9e66b68ac0dabaa049e0de">ta/typer-quote-atoms</a> (hipe, typer):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/254e21e5f6fedbc66788307ea4c8ec66e82366a5">Quote atoms if necessary in types</a></li>
+</ul>
+<p>Action expected from: Hipe-team reviewer
+
+<p>
+</li>
+<li><a href="https://github.com/erlang/otp/commit/b7bd9a6ffa5e459c9842546a77f22adb8094af41">bd/mod_esi_timeout_fix</a> (inets):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/eea0a7bdf77179c98e41f867398253c4c6f0811f">Fix timeout message generated by mod_esi</a></li>
+</ul>
+<p></li>
+<li><a href="https://github.com/erlang/otp/commit/9d224512a32c5d50fe842b2705ac9f080e306546">rj/fix-httpd-format</a> (inets):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/cbe8b2e034a8b2cd6052df5e27f1b229ded9748e">Fix log messages formating in httpd</a></li>
+</ul>
+<p></li>
+<li><a href="https://github.com/erlang/otp/commit/12924db2b194bf14e38744365e06126d361302e3">ms/beam-fix-format-specifiers-in-erl_exit-msg</a> (erts):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/a8bacf37001f4f73f51b92c1738283b7dbb3bb4f">Fix format specifiers in erl_exit messages</a></li>
+</ul>
+<p></li>
+<li><a href="https://github.com/erlang/otp/commit/e62904cef274c466bcab00b5136fff6ed1650fcc">jn/gen_stream</a> (stdlib):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/9f50d34a62de2908d4581e2ff4e9658973ca9bb5">Update gen_stream tests to conform with common_test standard</a></li>
+<li><a href="https://github.com/erlang/otp/commit/3065e10d40ff7e6adf628de6782bfd9e95d4bb45">Add gen_stream behaviour</a></li>
+</ul>
+<p>Action expected from: OTP-Team
+
+<p>
+</li>
+<li><a href="https://github.com/erlang/otp/commit/9726b655ad999a4c740648915d4f163f24f96c46">uw/mnesia-majority</a> (mnesia):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/f5b842798f19af49b6fdccbe2abc796a6b7c7f2e">Add documentation text about majority checking</a></li>
+<li><a href="https://github.com/erlang/otp/commit/9c2f7657107714ffe9bb0d6bb64be9d284cb067d">add mnesia_majority_test suite</a></li>
+<li><a href="https://github.com/erlang/otp/commit/a535b6c9b689aff21ecf6f193657589c959c52d3">where_to_wlock optimization + change_table_majority/2</a></li>
+<li><a href="https://github.com/erlang/otp/commit/eb81e204d04e35d2a85c7e9941791ac3f6c28e0b">bug in mnesia_tm:needs_majority/2</a></li>
+<li><a href="https://github.com/erlang/otp/commit/5b304d4f8ac69e04d29e7e2a3b1a57eca6140dc5">optimize sticky_lock maj. check</a></li>
+<li><a href="https://github.com/erlang/otp/commit/ae9e1fa7040e903bd0b6d01dd599f5c71eb0777d">check majority for sticky locks</a></li>
+<li><a href="https://github.com/erlang/otp/commit/6f02d2e1783f0e41f8ed8300e2fb332c6db69c3b">Write locks now check majority when needed.</a></li>
+<li><a href="https://github.com/erlang/otp/commit/c3241c0856f83ef8c8b6fd4f00ef2b656308fc03">Add {majority, boolean()} per-table option.</a></li>
+</ul>
+<p>Action expected from: OTP-Applications team
+
+<p>
+</li>
+<li><a href="https://github.com/erlang/otp/commit/e6e487d4f73952688019b8862339c24802c711a1">vb/shell</a> (erts, kernel, stdlib):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/f139eab81ea8d1a65261dae55e8e032549ffd13d">Add expandfmt_fun option for io:setopts</a></li>
+<li><a href="https://github.com/erlang/otp/commit/95672fa5be00bb93b042da4f5c3416634798dc47">Correct JCL's help indentation</a></li>
+<li><a href="https://github.com/erlang/otp/commit/ba4b19605ab8675029d28b7f8a42185bb1c2d948">Handle JCL's "r" command error when no pool started</a></li>
+<li><a href="https://github.com/erlang/otp/commit/e2077cb78b26e0fd118840831bb728cc0145feb3">Fix tab expansion in remote shell</a></li>
+<li><a href="https://github.com/erlang/otp/commit/838b84a5ebc93737f7ebfc2dc9aac657409434de">edlin_expand: fix matches formatting</a></li>
+<li><a href="https://github.com/erlang/otp/commit/ff28c52770a5cb862efab890884265724019f506">Take into account arity len when calculating field's width</a></li>
+</ul>
+<p>Action expected from: OTP-reviewer
+
+<p>
+</li>
+<li><a href="https://github.com/erlang/otp/commit/e311b016835f6aae09b0a8599c04873d5a555775">fm/posix-fallocate</a> (erts, kernel):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/5ec9fabd752879bdb45b2cc475a25fe9a2b0136d">Added missing surrounding if statement</a></li>
+<li><a href="https://github.com/erlang/otp/commit/d0fb47922bf11d9de04a1a7f2b552b274b27ef5d">Fixes to file:allocate/2 and respective tests</a></li>
+<li><a href="https://github.com/erlang/otp/commit/9b8aecf3f1e4a01df8344938c5aaa9a780e60f35">Fix build on Solaris</a></li>
+<li><a href="https://github.com/erlang/otp/commit/7554dbb83723cbbeab39f4790093a812f349112e">Added file:allocate/2</a></li>
+</ul>
+<p>Action expected from: Topic author
+
+<p>
+</li>
+<li><a href="https://github.com/erlang/otp/commit/70b446760b8fc2aaeeff786a09b3d055a4fc187a">bsmr/fix-makefile-in-for-xref-mod-app-escript</a> (otp):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/10d4235c7ab92f898d7411d3717f1d03db8c46c3">Fix for Makefile.in invoking xref_mod_app.escript</a></li>
+</ul>
+<p></li>
+<li><a href="https://github.com/erlang/otp/commit/98acd5e777cde47ec9c4fcdbd6bc4ccd2bd1d44a">bw/efile_exists</a> (erts):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/72039323b2edca78a5259347f223da795a351e9c">prim_file:exists/{1,2} which is lightweight file existence check</a></li>
+</ul>
+<p>Action expected from: Topic author
+
+<p>
+</li>
+<li><a href="https://github.com/erlang/otp/commit/1f19105fe81d0b5c206db57f7f07b9b874fe9c72">sa/callback-attr</a> (compiler, inets, kernel, otp, stdlib):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/a180fb16c53c76745f3736c41ec43417241dd569">Add callback specs into 'application' module in kernel</a></li>
+<li><a href="https://github.com/erlang/otp/commit/d0e32d831a2d79a4797a72dd6d0b0bcf04532302">Add callback specs to tftp module following internet documentation</a></li>
+<li><a href="https://github.com/erlang/otp/commit/d90e98499285decb086a9a2b5ccfba4922ce7836">Add callback specs to inets_service module following possibly deprecated comments</a></li>
+<li><a href="https://github.com/erlang/otp/commit/acf3d677b14536725a1d9d0f11fd7af0884bdaa7">Add '-callback' attributes in stdlib's behaviours</a></li>
+<li><a href="https://github.com/erlang/otp/commit/30c1e91592f89e4188d66aff9714bb46b7a83343">Update primary bootstrap</a></li>
+<li><a href="https://github.com/erlang/otp/commit/6ee955e8fa26666e1b72754f62356bf4a74b579a">Add '-callback' attribute to language syntax</a></li>
+</ul>
+<p>Action expected from: OTP-Team
+
+<p>
+</li>
+<li><a href="https://github.com/erlang/otp/commit/1c14741deb3e03f7e22afa615916974050a6863f">jf/run_erl-disable-flow-control</a> (erts):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/d0775cd6bc64f5eec41d04e04441fe6a6e058927">Teach run_erl RUN_ERL_DISABLE_FLOWCNTRL for disabling flow control</a></li>
+</ul>
+<p>Action expected from: Topic author
+
+<p>
+</li>
+<li><a href="https://github.com/erlang/otp/commit/57334ff51681aca884cb95207158f305b6e8399d">bg/temp-hipe-fixes</a> (compiler, hipe, kernel):
+
+<ul>
+<li><a href="https://github.com/erlang/otp/commit/0d913e0cd43e561dd24bf82df770f9571d3629ad">Avoid crash by skipping compilation_SUITE:on_load/1</a></li>
+<li><a href="https://github.com/erlang/otp/commit/0215ac6bb31dfc4fb62ba5b1bdf7b6bf6f4ed684">Inline less aggressively for native-code compilation</a></li>
+<li><a href="https://github.com/erlang/otp/commit/4f48864bd66ad6ff16c52d7332694e02f4b51991">Crudely fix return type for the lists:key{search,find,member}/3</a></li>
+<li><a href="https://github.com/erlang/otp/commit/3799b17cd97ad0029438fbbc6fac54e5077f0b66">seq_trace_SUITE: Don't native-compile</a></li>
+<li><a href="https://github.com/erlang/otp/commit/f35872cdc8fa4398724d04c42ab71e57de27a8eb">Disable native code if on_load is used</a></li>
+<li><a href="https://github.com/erlang/otp/commit/a8ab68c3e49396e2c8aaa3068e972ad8129a18f3">andor_SUITE: Don't native-compile</a></li>
+</ul>
+<p>This branch contains temporary workarounds to avoid failing test
+cases and is never intended to graduate.
+
+<p>
+</li>
+</ul>
+</body>
+</html>
