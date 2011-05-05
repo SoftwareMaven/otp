@@ -71,7 +71,8 @@ suite() -> [{ct_hooks,[ts_install_cth]}].
 
 all() -> 
     [link_test, md5, md5_update, md4, md4_update, md5_mac,
-     md5_mac_io, sha, sha_update, hmac_update,
+     md5_mac_io, sha, sha_update, 
+     hmac_update_sha, hmac_update_md5_n, hmac_update_md5_io, hmac_update_md5,
      %% sha256, sha256_update, sha512,sha512_update,
      des_cbc, aes_cfb, aes_cbc,
      aes_cbc_iter, aes_ctr, aes_ctr_state, des_cbc_iter, des_ecb,
@@ -1202,7 +1203,7 @@ rc4_test(doc) ->
 rc4_test(suite) ->
     [];
 rc4_test(Config) when is_list(Config) ->
-    CT1 = <<"hej pÃ¥ dig">>,
+    CT1 = <<"hej på dig">>,
     R1 = <<71,112,14,44,140,33,212,144,155,47>>,
     K = "apaapa",
     R1 = crypto:rc4_encrypt(K, CT1),
@@ -1218,7 +1219,7 @@ rc4_stream_test(suite) ->
     [];
 rc4_stream_test(Config) when is_list(Config) ->
     CT1 = <<"hej">>,
-    CT2 = <<" pÃ¥ dig">>,
+    CT2 = <<" på dig">>,
     K = "apaapa",
     State0 = crypto:rc4_set_key(K),
     {State1, R1} = crypto:rc4_encrypt_with_state(State0, CT1),
