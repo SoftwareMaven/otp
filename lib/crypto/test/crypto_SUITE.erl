@@ -1278,7 +1278,8 @@ worker_loop(0, _) ->
 worker_loop(N, Config) ->
     Funcs = { md5, md5_update, md5_mac, md5_mac_io, sha, sha_update, des_cbc,
 	      aes_cfb, aes_cbc, des_cbc_iter, rand_uniform_test, strong_rand_test,
-	      rsa_verify_test, exor_test, rc4_test, rc4_stream_test, mod_exp_test },
+	      rsa_verify_test, exor_test, rc4_test, rc4_stream_test, mod_exp_test,
+              hmac_update_md5, hmac_update_sha, aes_ctr_state  },
 
     F = element(random:uniform(size(Funcs)),Funcs),
     %%io:format("worker ~p calling ~p\n",[self(),F]),
