@@ -50,8 +50,7 @@
 		 cb                 %% Callback info
 		}).
 -type option()       :: socketoption() | ssloption() | transportoption().
--type socketoption() :: [{property(), term()}]. %% See gen_tcp and inet
--type property()     :: atom().
+-type socketoption() :: term(). %% See gen_tcp and inet, import spec later when there is one to import
 -type ssloption()    :: {verify, verify_type()} |
 			{verify_fun, {fun(), InitialUserState::term()}} |
                         {fail_if_no_peer_cert, boolean()} | {depth, integer()} |
@@ -264,7 +263,7 @@ close(Socket = #sslsocket{}) ->
     ssl_broker:close(Socket).
 
 %%--------------------------------------------------------------------
--spec send(#sslsocket{}, iolist()) -> ok | {error, reason()}.
+-spec send(#sslsocket{}, iodata()) -> ok | {error, reason()}.
 %% 
 %% Description: Sends data over the ssl connection
 %%--------------------------------------------------------------------
@@ -403,9 +402,9 @@ cipher_suites(openssl) ->
     [ssl_cipher:openssl_suite_name(S) || S <- ssl_cipher:suites(Version)].
 
 %%--------------------------------------------------------------------
--spec getopts(#sslsocket{}, [atom()]) -> {ok, [{atom(), term()}]}| {error, reason()}.
+-spec getopts(#sslsocket{}, [atom()]) -> {ok, [{atom(), term()}]} | {error, reason()}.
 %% 
-%% Description:
+%% Description: Gets options
 %%--------------------------------------------------------------------
 getopts(#sslsocket{fd = new_ssl, pid = Pid}, OptTags) when is_pid(Pid) ->
     ssl_connection:get_opts(Pid, OptTags);
@@ -416,9 +415,9 @@ getopts(#sslsocket{} = Socket, Options) ->
     ssl_broker:getopts(Socket, Options).
 
 %%--------------------------------------------------------------------
--spec setopts(#sslsocket{},  [{atom(), term()}]) -> ok | {error, reason()}.
+-spec setopts(#sslsocket{},  [proplist:property()]) -> ok | {error, reason()}.
 %% 
-%% Description:
+%% Description: Sets options
 %%--------------------------------------------------------------------
 setopts(#sslsocket{fd = new_ssl, pid = Pid}, Opts0) when is_pid(Pid) ->
     Opts = proplists:expand([{binary, [{mode, binary}]},
