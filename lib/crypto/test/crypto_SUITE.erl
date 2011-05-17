@@ -48,7 +48,7 @@
 	 aes_cbc/1,
 	 aes_cbc_iter/1,
 	 aes_ctr/1,
-	 aes_ctr_state/1,
+	 aes_ctr_stream/1,
 	 mod_exp_test/1,
 	 rand_uniform_test/1,
 	 strong_rand_test/1,
@@ -75,7 +75,7 @@ all() ->
      hmac_update_sha, hmac_update_md5_n, hmac_update_md5_io, hmac_update_md5,
      %% sha256, sha256_update, sha512,sha512_update,
      des_cbc, aes_cfb, aes_cbc,
-     aes_cbc_iter, aes_ctr, aes_ctr_state, des_cbc_iter, des_ecb,
+     aes_cbc_iter, aes_ctr, aes_ctr_stream, des_cbc_iter, des_ecb,
      rand_uniform_test, strong_rand_test,
      rsa_verify_test, dsa_verify_test, rsa_sign_test,
      dsa_sign_test, rsa_encrypt_decrypt, dh, exor_test,
@@ -303,7 +303,7 @@ hmac_update_sha(Config) when is_list(Config) ->
                            "0c0d0e0f1c1d1e1f2c2d2e2f3c3d3e3f"),
     ?line Data = "Sampl",
     ?line Data2 = "e #1",
-    ?line Ctx = crypto:hmac_init_sha(Key),
+    ?line Ctx = crypto:hmac_init(sha, Key),
     ?line Ctx2 = crypto:hmac_update(Ctx, Data),
     ?line Ctx3 = crypto:hmac_update(Ctx2, Data2),
     ?line Mac = crypto:hmac_final(Ctx3),
@@ -321,7 +321,7 @@ hmac_update_md5(Config) when is_list(Config) ->
     ?line Long1 = "Four score and seven years ago our fathers brought forth on this continent a new nation, conceived in liberty, and dedicated to the proposition that all men are created equal.",
     ?line Long2 = "Now we are engaged in a great civil war, testing whether that nation, or any nation, so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this.",
     ?line Long3 = "But, in a larger sense, we can not dedicate, we can not consecrate, we can not hallow this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us-that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion—that we here highly resolve that these dead shall not have died in vain-that this nation, under God, shall have a new birth of freedom-and that government of the people, by the people, for the people, shall not perish from the earth.",
-    ?line CtxA = crypto:hmac_init_md5(Key2),
+    ?line CtxA = crypto:hmac_init(md5, Key2),
     ?line CtxB = crypto:hmac_update(CtxA, Long1),
     ?line CtxC = crypto:hmac_update(CtxB, Long2),
     ?line CtxD = crypto:hmac_update(CtxC, Long3),
@@ -339,7 +339,7 @@ hmac_update_md5_io(Config) when is_list(Config) ->
     ?line Key = ["A fine speach", "by a fine man!"],
     ?line Data = "Sampl",
     ?line Data2 = "e #1",
-    ?line Ctx = crypto:hmac_init_md5(Key),
+    ?line Ctx = crypto:hmac_init(md5, Key),
     ?line Ctx2 = crypto:hmac_update(Ctx, Data),
     ?line Ctx3 = crypto:hmac_update(Ctx2, Data2),
     ?line Mac = crypto:hmac_final(Ctx3),
@@ -356,7 +356,7 @@ hmac_update_md5_n(Config) when is_list(Config) ->
     ?line Key = ["A fine speach", "by a fine man!"],
     ?line Data = "Sampl",
     ?line Data2 = "e #1",
-    ?line Ctx = crypto:hmac_init_md5(Key),
+    ?line Ctx = crypto:hmac_init(md5, Key),
     ?line Ctx2 = crypto:hmac_update(Ctx, Data),
     ?line Ctx3 = crypto:hmac_update(Ctx2, Data2),
     ?line Mac = crypto:hmac_final_n(Ctx3, 12),
@@ -753,8 +753,8 @@ aes_ctr_do(Key,{IVec, Plain, Cipher}) ->
     ?line m(C, hexstr2bin(Cipher)),
     ?line m(P, crypto:aes_ctr_decrypt(Key, I, C)).
 
-aes_ctr_state(doc) -> "CTR Streaming";
-aes_ctr_state(Config) when is_list(Config) ->
+aes_ctr_stream(doc) -> "CTR Streaming";
+aes_ctr_stream(Config) when is_list(Config) ->
     %% Sample data from NIST Spec.Publ. 800-38A
     %% F.5.1 CTR-AES128.Encrypt
     Key128 = hexstr2bin("2b7e151628aed2a6abf7158809cf4f3c"),
@@ -770,7 +770,7 @@ aes_ctr_state(Config) when is_list(Config) ->
                   {"f0f1f2f3f4f5f6f7f8f9fafbfcfdff02",
                    ["f69f2445df4f9b17ad2b417be66c3710"],
                    ["1e031dda2fbe","03d1792170a0","f3009cee"]}],
-    lists:foreach(fun(S) -> aes_ctr_state_do(Key128,S) end, Samples128),
+    lists:foreach(fun(S) -> aes_ctr_stream_do(Key128,S) end, Samples128),
 
     %% F.5.3  CTR-AES192.Encrypt
     Key192 =  hexstr2bin("8e73b0f7da0e6452c810f32b809079e562f8ead2522c6b7b"),
@@ -786,7 +786,7 @@ aes_ctr_state(Config) when is_list(Config) ->
                   {"f0f1f2f3f4f5f6f7f8f9fafbfcfdff02",
                    ["f69f2445", "df4f9b17ad", "2b417be6", "6c3710"],
                    ["4f78a7f6d2980958","5a97daec58c6b050"]}],    
-    lists:foreach(fun(S) -> aes_ctr_state_do(Key192,S) end, Samples192),
+    lists:foreach(fun(S) -> aes_ctr_stream_do(Key192,S) end, Samples192),
 
     %% F.5.5  CTR-AES256.Encrypt
     Key256 = hexstr2bin("603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4"),
@@ -802,27 +802,27 @@ aes_ctr_state(Config) when is_list(Config) ->
                    {"f0f1f2f3f4f5f6f7f8f9fafbfcfdff02",
                     ["f69f2445df4f","9b17ad2b41","7be66c3710"],
                     ["dfc9c5","8db67aada6","13c2dd08","457941a6"]}],
-    lists:foreach(fun(S) -> aes_ctr_state_do(Key256,S) end, Samples256).
+    lists:foreach(fun(S) -> aes_ctr_stream_do(Key256,S) end, Samples256).
 
 
-aes_ctr_state_do(Key,{IVec, PlainList, CipherList}) ->
+aes_ctr_stream_do(Key,{IVec, PlainList, CipherList}) ->
     ?line I = hexstr2bin(IVec),
-    ?line S = crypto:aes_ctr_state_init(Key, I),
-    ?line C = aes_ctr_state_do_iter(
+    ?line S = crypto:aes_ctr_stream_init(Key, I),
+    ?line C = aes_ctr_stream_do_iter(
                 S, PlainList, [], 
-                fun(S2,P) -> crypto:aes_ctr_encrypt_with_state(S2, P) end),
+                fun(S2,P) -> crypto:aes_ctr_stream_encrypt(S2, P) end),
     ?line m(C, hexstr2bin(lists:flatten(CipherList))),
-    ?line P = aes_ctr_state_do_iter(
+    ?line P = aes_ctr_stream_do_iter(
                 S, CipherList, [], 
-                fun(S2,C2) -> crypto:aes_ctr_decrypt_with_state(S2, C2) end),
+                fun(S2,C2) -> crypto:aes_ctr_stream_decrypt(S2, C2) end),
     ?line m(P, hexstr2bin(lists:flatten(PlainList))).
 
-aes_ctr_state_do_iter(_State, [], Acc, _CipherFun) ->
+aes_ctr_stream_do_iter(_State, [], Acc, _CipherFun) ->
     iolist_to_binary(lists:reverse(Acc));
-aes_ctr_state_do_iter(State, [Plain|Rest], Acc, CipherFun) ->
+aes_ctr_stream_do_iter(State, [Plain|Rest], Acc, CipherFun) ->
     ?line P = hexstr2bin(Plain),
     ?line {S2, C} = CipherFun(State, P),
-    aes_ctr_state_do_iter(S2, Rest, [C | Acc], CipherFun).
+    aes_ctr_stream_do_iter(S2, Rest, [C | Acc], CipherFun).
 
 %%
 %%
@@ -1279,7 +1279,7 @@ worker_loop(N, Config) ->
     Funcs = { md5, md5_update, md5_mac, md5_mac_io, sha, sha_update, des_cbc,
 	      aes_cfb, aes_cbc, des_cbc_iter, rand_uniform_test, strong_rand_test,
 	      rsa_verify_test, exor_test, rc4_test, rc4_stream_test, mod_exp_test,
-              hmac_update_md5, hmac_update_sha, aes_ctr_state  },
+              hmac_update_md5, hmac_update_sha, aes_ctr_stream },
 
     F = element(random:uniform(size(Funcs)),Funcs),
     %%io:format("worker ~p calling ~p\n",[self(),F]),

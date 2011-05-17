@@ -296,42 +296,6 @@ Mpint() = <![CDATA[<<ByteLen:32/integer-big, Bytes:ByteLen/binary>>]]>
       </desc>
     </func>
     <func>
-      <name>hmac_init_sha(Key) -> Context</name>
-      <fsummary></fsummary>
-      <type>
-        <v>Key = iolist() | binary()</v>
-        <v>Context = binary()</v>
-      </type>
-      <desc>
-        <p>Initializes the context for streaming HMAC operations using the SHA hash function.
-        <c>Key</c> is the authentication key. The key can be any length.</p>
-      </desc>
-    </func>
-    <func>
-      <name>hmac_init_md5(Key) -> Context</name>
-      <fsummary></fsummary>
-      <type>
-        <v>Key = iolist() | binary()</v>
-        <v>Context = binary()</v>
-      </type>
-      <desc>
-        <p>Initializes the context for streaming HMAC operations using the MD5 hash function.
-        <c>Key</c> is the authentication key. The key can be any length.</p>
-      </desc>
-    </func>
-    <func>
-      <name>hmac_init_ripemd160(Key) -> Context</name>
-      <fsummary></fsummary>
-      <type>
-        <v>Key = iolist() | binary()</v>
-        <v>Context = binary()</v>
-      </type>
-      <desc>
-        <p>Initializes the context for streaming HMAC operations using the Ripemd160 hash function.
-        <c>Key</c> is the authentication key. The key can be any length.</p>
-      </desc>
-    </func>
-    <func>
       <name>hmac_update(Context, Data) -> NewContext</name>
       <fsummary></fsummary>
       <type>
@@ -364,9 +328,8 @@ Mpint() = <![CDATA[<<ByteLen:32/integer-big, Bytes:ByteLen/binary>>]]>
         <v>HashLen = non_neg_integer()</v>
       </type>
       <desc>
-        <p>Finalizes the HMAC operation referenced by <c>Context</c>. The size of the resultant MAC is
-        determined by the type of hash function used to generate it. <c>HashLen</c> must be greater than
-        zero. <c>Mac</c> will be a binary with <c>HashLen</c> bytes.</p>
+        <p>Finalizes the HMAC operation referenced by <c>Context</c>. <c>HashLen</c> must be greater than
+        zero. <c>Mac</c> will be a binary with at most <c>HashLen</c> bytes. Note that if HashLen is greater than the actual number of bytes returned from the underlying hash, the returned hash will have fewer than <c>HashLen</c> bytes.</p>
       </desc>
     </func>
     <func>
@@ -677,7 +640,7 @@ Mpint() = <![CDATA[<<ByteLen:32/integer-big, Bytes:ByteLen/binary>>]]>
     </desc>
     </func>
     <func>
-      <name>aes_ctr_state_init(Key, IVec) -> State</name>
+      <name>aes_ctr_stream_init(Key, IVec) -> State</name>
       <fsummary></fsummary>
       <type>
         <v>State = { K, I, E, C }</v>
@@ -689,12 +652,12 @@ Mpint() = <![CDATA[<<ByteLen:32/integer-big, Bytes:ByteLen/binary>>]]>
         <p>Initializes the state for use in streaming AES encryption using Counter mode (CTR).
         <c>Key</c> is the AES key and must be either 128, 192, or 256 bts long. <c>IVec</c> is
         an arbitrary initializing vector of 128 bits (16 bytes). This state is for use with
-        <seealso marker="#aes_ctr_encrypt_with_state/2">aes_ctr_encrypt_with_state</seealso> and 
-        <seealso marker="#aes_ctr_decrypt_with_state/2">aes_ctr_decrypt_with_state</seealso>.</p>
+        <seealso marker="#aes_ctr_stream_encrypt/2">aes_ctr_stream_encrypt</seealso> and 
+        <seealso marker="#aes_ctr_stream_decrypt/2">aes_ctr_stream_decrypt</seealso>.</p>
       </desc>
     </func>
     <func>
-      <name>aes_ctr_encrypt_with_state(State, Text) -> { NewState, Cipher}</name>
+      <name>aes_ctr_stream_encrypt(State, Text) -> { NewState, Cipher}</name>
       <fsummary></fsummary>
       <type>
         <v>Text = iolist() | binary()</v>
@@ -704,13 +667,13 @@ Mpint() = <![CDATA[<<ByteLen:32/integer-big, Bytes:ByteLen/binary>>]]>
       <p>Encrypts <c>Text</c> according to AES in Counter mode (CTR).  This function can be
         used to encrypt a stream of text using a series of calls instead of requiring all
         text to be in memory. <c>Text</c> can be any number of bytes. State is initialized using 
-        <seealso marker="#aes_ctr_state_init/2">aes_ctr_state_init</seealso>. <c>State2</c> is the new streaming
-        encryption state that must be passed to the next call to <c>aes_ctr_encrypt_with_state</c>.
+        <seealso marker="#aes_ctr_stream_init/2">aes_ctr_stream_init</seealso>. <c>NewState</c> is the new streaming
+        encryption state that must be passed to the next call to <c>aes_ctr_stream_encrypt</c>.
         <c>Cipher</c> is the encrypted cipher text.</p>
       </desc>
     </func>
     <func>
-      <name>aes_ctr_decrypt_with_state(State, Cipher) -> { NewState, Text }</name>
+      <name>aes_ctr_stream_decrypt(State, Cipher) -> { NewState, Text }</name>
       <fsummary></fsummary>
       <type>
         <v>Cipher = iolist() | binary()</v>
@@ -720,8 +683,8 @@ Mpint() = <![CDATA[<<ByteLen:32/integer-big, Bytes:ByteLen/binary>>]]>
       <p>Decrypts <c>Cipher</c> according to AES in Counter mode (CTR). This function can be
         used to decrypt a stream of ciphertext using a series of calls instead of requiring all
         ciphertext to be in memory.  <c>Cipher</c> can be any number of bytes. State is initialized using 
-        <seealso marker="#aes_ctr_state_init/2">aes_ctr_state_init</seealso>. <c>State2</c> is the new streaming
-        encryption state that must be passed to the next call to <c>aes_ctr_encrypt_with_state</c>.
+        <seealso marker="#aes_ctr_stream_init/2">aes_ctr_stream_init</seealso>. <c>NewState</c> is the new streaming
+        encryption state that must be passed to the next call to <c>aes_ctr_stream_encrypt</c>.
         <c>Text</c> is the decrypted data.</p>
       </desc>
     </func>

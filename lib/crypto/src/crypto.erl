@@ -29,7 +29,6 @@
 %-export([sha512/1, sha512_init/0, sha512_update/2, sha512_final/1]).
 -export([md5_mac/2, md5_mac_96/2, sha_mac/2, sha_mac_96/2]).
 -export([hmac_init/2, hmac_update/2, hmac_final/1, hmac_final_n/2]).
--export([hmac_init_sha/1, hmac_init_ripemd160/1, hmac_init_md5/1]).
 -export([des_cbc_encrypt/3, des_cbc_decrypt/3, des_cbc_ivec/1]).
 -export([des_ecb_encrypt/2, des_ecb_decrypt/2]).
 -export([des3_cbc_encrypt/5, des3_cbc_decrypt/5]).
@@ -55,7 +54,7 @@
 -export([aes_cbc_256_encrypt/3, aes_cbc_256_decrypt/3]).
 -export([aes_cbc_ivec/1]).
 -export([aes_ctr_encrypt/3, aes_ctr_decrypt/3]).
--export([aes_ctr_state_init/2, aes_ctr_encrypt_with_state/2, aes_ctr_decrypt_with_state/2]).
+-export([aes_ctr_stream_init/2, aes_ctr_stream_encrypt/2, aes_ctr_stream_decrypt/2]).
 
 -export([dh_generate_parameters/2, dh_check/1]). %% Testing see below
 
@@ -89,7 +88,7 @@
 		    %% idea_cbc_encrypt, idea_cbc_decrypt,
 		    aes_cbc_256_encrypt, aes_cbc_256_decrypt,
             aes_ctr_encrypt, aes_ctr_decrypt,
-                    aes_ctr_state_init, aes_ctr_encrypt_with_state,
+                    aes_ctr_stream_init, aes_ctr_stream_encrypt, aes_ctr_stream_decrypt,
 		    info_lib]).
 
 -type rsa_digest_type() :: 'md5' | 'sha'.
@@ -224,19 +223,10 @@ sha_final(_Context) -> ?nif_stub.
 %%
 %%  HMAC (multiple hash options)
 %%
--spec hmac_init_sha(iodata()) -> binary().                             
--spec hmac_init_md5(iodata()) -> binary().                             
 -spec hmac_init(atom(), iodata()) -> binary().                             
 -spec hmac_update(binary(), iodata()) -> binary().
 -spec hmac_final(binary()) -> binary().                             
 -spec hmac_final_n(binary(), integer()) -> binary().                             
-
-hmac_init_sha(Key) ->
-    hmac_init(sha, Key).
-hmac_init_ripemd160(Key) ->
-    hmac_init(ripemd160, Key).
-hmac_init_md5(Key) ->
-    hmac_init(md5, Key).
 
 hmac_init(_Type, _Key) -> ?nif_stub.
 hmac_update(_Context, _Data) -> ? nif_stub.
@@ -610,16 +600,16 @@ aes_ctr_decrypt(_Key, _IVec, _Cipher) -> ?nif_stub.
 %%
 -type ctr_state() :: { iodata(), binary(), binary(), integer() }.
 
--spec aes_ctr_state_init(iodata(), binary()) -> ctr_state().
--spec aes_ctr_encrypt_with_state(ctr_state(), binary()) ->
+-spec aes_ctr_stream_init(iodata(), binary()) -> ctr_state().
+-spec aes_ctr_stream_encrypt(ctr_state(), binary()) ->
 				 { ctr_state(), binary() }.
--spec aes_ctr_decrypt_with_state(ctr_state(), binary()) ->
+-spec aes_ctr_stream_decrypt(ctr_state(), binary()) ->
 				 { ctr_state(), binary() }.
  
-aes_ctr_state_init(Key, IVec) -> 
+aes_ctr_stream_init(Key, IVec) -> 
     {Key, IVec, << 0:128 >>, 0}.
-aes_ctr_encrypt_with_state({_Key, _IVec, _ECount, _Num}=_State, _Data) -> ?nif_stub.
-aes_ctr_decrypt_with_state({_Key, _IVec, _ECount, _Num}=_State, _Cipher) -> ?nif_stub.
+aes_ctr_stream_encrypt({_Key, _IVec, _ECount, _Num}=_State, _Data) -> ?nif_stub.
+aes_ctr_stream_decrypt({_Key, _IVec, _ECount, _Num}=_State, _Cipher) -> ?nif_stub.
      
 %%
 %% XOR - xor to iolists and return a binary

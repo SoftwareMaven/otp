@@ -138,7 +138,7 @@ static ERL_NIF_TERM des_ecb_crypt(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 static ERL_NIF_TERM des_ede3_cbc_crypt(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 static ERL_NIF_TERM aes_cfb_128_crypt(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 static ERL_NIF_TERM aes_ctr_encrypt(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-static ERL_NIF_TERM aes_ctr_encrypt_with_state(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
+static ERL_NIF_TERM aes_ctr_stream_encrypt(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 static ERL_NIF_TERM rand_bytes_1(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 static ERL_NIF_TERM strong_rand_bytes_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 static ERL_NIF_TERM rand_bytes_3(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
@@ -215,8 +215,8 @@ static ErlNifFunc nif_funcs[] = {
     {"aes_cfb_128_crypt", 4, aes_cfb_128_crypt},
     {"aes_ctr_encrypt", 3, aes_ctr_encrypt},
     {"aes_ctr_decrypt", 3, aes_ctr_encrypt},
-    {"aes_ctr_encrypt_with_state", 2, aes_ctr_encrypt_with_state},
-    {"aes_ctr_decrypt_with_state", 2, aes_ctr_encrypt_with_state},
+    {"aes_ctr_stream_encrypt", 2, aes_ctr_stream_encrypt},
+    {"aes_ctr_stream_decrypt", 2, aes_ctr_stream_encrypt},
     {"rand_bytes", 1, rand_bytes_1},
     {"strong_rand_bytes_nif", 1, strong_rand_bytes_nif},
     {"rand_bytes", 3, rand_bytes_3},
@@ -626,7 +626,8 @@ static ERL_NIF_TERM hmac_update(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     unsigned char * ctx_buf;
     
     if (!enif_inspect_binary(env, argv[0], &context)
-        || !enif_inspect_iolist_as_binary(env, argv[1], &data)) {
+        || !enif_inspect_iolist_as_binary(env, argv[1], &data)
+        || context.size != sizeof(HMAC_CTX)) {
 	return enif_make_badarg(env);
     }
 
@@ -653,12 +654,18 @@ static ERL_NIF_TERM hmac_final(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     if (argc == 2 && !enif_get_uint(env, argv[1], &req_len)) {
 	return enif_make_badarg(env);
     }
-            
+
+    if (context.size != sizeof(ctx)) {
+        return enif_make_badarg(env);
+    }
     memcpy(&ctx, context.data, context.size);
     
     HMAC_Final(&ctx, mac_buf, &mac_len);
     HMAC_CTX_cleanup(&ctx);
 
+    if (req_len > mac_len) {
+        req_len = mac_len;
+    }
     mac_len = req_len == -1 ? mac_len : req_len; // Only get the left req_len bytes if asked.
     mac_bin = enif_make_new_binary(env, mac_len, &ret);
     memcpy(mac_bin, mac_buf, mac_len);
@@ -782,7 +789,7 @@ static ERL_NIF_TERM aes_ctr_encrypt(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 
 /* Initializes state for ctr streaming (de)encryption
 */
-static ERL_NIF_TERM aes_ctr_encrypt_with_state(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+static ERL_NIF_TERM aes_ctr_stream_encrypt(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {/* ({Key, IVec, ECount, Num}, Data) */    
     ErlNifBinary key_bin, ivec_bin, text_bin, ecount_bin;
     AES_KEY aes_key;
