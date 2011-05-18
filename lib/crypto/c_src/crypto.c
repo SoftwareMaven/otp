@@ -645,7 +645,8 @@ static ERL_NIF_TERM hmac_final(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     HMAC_CTX ctx;
     unsigned char mac_buf[EVP_MAX_MD_SIZE];
     unsigned char * mac_bin;
-    unsigned int req_len = -1;
+    unsigned int use_req_len = 0;
+    unsigned int req_len = 0;
     unsigned int mac_len;
     
     if (!enif_inspect_binary(env, argv[0], &context)) {
@@ -653,6 +654,9 @@ static ERL_NIF_TERM hmac_final(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     }
     if (argc == 2 && !enif_get_uint(env, argv[1], &req_len)) {
 	return enif_make_badarg(env);
+    }
+    else {
+        use_req_len = 1;
     }
 
     if (context.size != sizeof(ctx)) {
@@ -663,10 +667,10 @@ static ERL_NIF_TERM hmac_final(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     HMAC_Final(&ctx, mac_buf, &mac_len);
     HMAC_CTX_cleanup(&ctx);
 
-    if (req_len > mac_len) {
-        req_len = mac_len;
+    if (use_req_len) {
+        // Only get the left req_len bytes if asked.
+        mac_len = (req_len > mac_len) ? mac_len : req_len;
     }
-    mac_len = req_len == -1 ? mac_len : req_len; // Only get the left req_len bytes if asked.
     mac_bin = enif_make_new_binary(env, mac_len, &ret);
     memcpy(mac_bin, mac_buf, mac_len);
 
