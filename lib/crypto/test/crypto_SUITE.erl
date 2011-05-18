@@ -32,6 +32,7 @@
 	 sha/1,
 	 sha_update/1,
          hmac_update_sha/1,
+         hmac_update_sha_n/1,
          hmac_update_md5/1,
          hmac_update_md5_io/1,
          hmac_update_md5_n/1,
@@ -72,7 +73,7 @@ suite() -> [{ct_hooks,[ts_install_cth]}].
 all() -> 
     [link_test, md5, md5_update, md4, md4_update, md5_mac,
      md5_mac_io, sha, sha_update, 
-     hmac_update_sha, hmac_update_md5_n, hmac_update_md5_io, hmac_update_md5,
+     hmac_update_sha, hmac_update_sha_n, hmac_update_md5_n, hmac_update_md5_io, hmac_update_md5,
      %% sha256, sha256_update, sha512,sha512_update,
      des_cbc, aes_cfb, aes_cbc,
      aes_cbc_iter, aes_ctr, aes_ctr_stream, des_cbc_iter, des_ecb,
@@ -291,6 +292,27 @@ sha(Config) when is_list(Config) ->
 
 
 %% 
+hmac_update_sha_n(doc) ->
+    ["Request a larger-than-allowed SHA1 HMAC using hmac_init, hmac_update, and hmac_final_n. "
+     "Expected values for examples are generated using crypto:sha_mac." ];
+hmac_update_sha_n(suite) ->
+    [];
+hmac_update_sha_n(Config) when is_list(Config) ->
+    ?line Key = hexstr2bin("00010203101112132021222330313233"
+                           "04050607141516172425262734353637"
+                           "08090a0b18191a1b28292a2b38393a3b"
+                           "0c0d0e0f1c1d1e1f2c2d2e2f3c3d3e3f"),
+    ?line Data = "Sampl",
+    ?line Data2 = "e #1",
+    ?line Ctx = crypto:hmac_init(sha, Key),
+    ?line Ctx2 = crypto:hmac_update(Ctx, Data),
+    ?line Ctx3 = crypto:hmac_update(Ctx2, Data2),
+    ?line Mac = crypto:hmac_final_n(Ctx3, 1024),
+    ?line Exp = crypto:sha_mac(Key, lists:flatten([Data, Data2])),
+    ?line m(Exp, Mac),
+    ?line m(size(Exp), size(Mac)).
+
+
 hmac_update_sha(doc) ->
     ["Generate an SHA1 HMAC using hmac_init, hmac_update, and hmac_final. "
      "Expected values for examples are generated using crypto:sha_mac." ];
